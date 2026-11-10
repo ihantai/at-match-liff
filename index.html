@@ -1,10 +1,9 @@
 <!doctype html>
-
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>防護紀錄表</title>
+<title>賽會防護員媒合平台</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
 <style>
   :root{--navy:#14365A;--teal:#0B5E7E;--muted:#5E6E7C;--bg:#F3F6F8;--paper:#fff;--ink:#1D2B36;color-scheme:light}
@@ -31,13 +30,13 @@
 <body>
 <main class="card" aria-live="polite">
   <div class="spin" id="spin" aria-hidden="true"></div>
-  <h1 id="title">正在開啟防護紀錄表…</h1>
+  <h1 id="title">正在開啟…</h1>
   <p id="msg">確認你的 LINE 身分中</p>
 </main>
 <script>
 
-  const LIFF_ID = "2012505387-reRZTYHB";                
-  const APP_URL = "https://at-match-104.streamlit.app";   /
+  const LIFF_ID = "2012505387-reRZTYHB";                 
+  const APP_URL = "https://at-match-104.streamlit.app";   
 
 
   function fail(text) {
@@ -46,7 +45,7 @@
     const msg = document.getElementById("msg");
     msg.textContent = text + " 你也可以直接開啟平台登入：";
     const a = document.createElement("a");
-    a.className = "btn"; a.href = APP_URL + "/?page=record"; a.textContent = "開啟平台";
+    a.className = "btn"; a.href = APP_URL + "/" + location.search; a.textContent = "開啟平台";
     msg.after(a);
   }
 
@@ -61,8 +60,10 @@
       const here = new URLSearchParams(location.search);
       const target = new URL(APP_URL + "/");
       target.searchParams.set("liff_token", token);
-      target.searchParams.set("page", here.get("page") || "record");
-      if (here.get("rec_case")) target.searchParams.set("rec_case", here.get("rec_case"));
+      for (const key of ["page", "case", "rec_case"]) {
+        const v = here.get(key);
+        if (v && /^[a-z0-9-]{1,30}$/i.test(v)) target.searchParams.set(key, v);
+      }
       location.replace(target.toString());
     })
     .catch((err) => fail("LINE 初始化失敗（" + (err && err.message ? err.message : err) + "）。"));
