@@ -1,18 +1,10 @@
 <!doctype html>
-<!--
-  LIFF 啟動頁：在 LINE 裡打開「防護紀錄表」時，先到這一頁取得 LINE 身分，再自動轉進平台，不用再按登入。
 
-  部署方式（免費）：GitHub repo → Settings → Pages → Source 選 main 分支、資料夾選 /（root）或 /docs，
-  然後把這個檔案放在對應位置。拿到的網址（例如 https://帳號.github.io/at_match/trainer-match/liff/）
-  就是 LINE Developers 建立 LIFF 時要填的 Endpoint URL。
-
-  ↓↓↓ 只要改這兩行 ↓↓↓
--->
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>防護紀錄表</title>
+<title>AT match 104</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
 <style>
   :root{--navy:#14365A;--teal:#0B5E7E;--muted:#5E6E7C;--bg:#F3F6F8;--paper:#fff;--ink:#1D2B36;color-scheme:light}
@@ -39,14 +31,14 @@
 <body>
 <main class="card" aria-live="polite">
   <div class="spin" id="spin" aria-hidden="true"></div>
-  <h1 id="title">正在開啟防護紀錄表…</h1>
+  <h1 id="title">正在開啟…</h1>
   <p id="msg">確認你的 LINE 身分中</p>
 </main>
 <script>
-  // ↓↓↓ 部署前請改成你自己的值 ↓↓↓
-  const LIFF_ID = "2012505387-reRZTYHB";                 // 例如 2001234567-AbCdEfGh
-  const APP_URL = "https://at-match-104.streamlit.app";   // 平台網址，結尾不要加 /
-  // ↑↑↑ 部署前請改成你自己的值 ↑↑↑
+
+  const LIFF_ID = "2012505387-reRZTYHB";                
+  const APP_URL = "https://at-match-104.streamlit.app";   /
+
 
   function fail(text) {
     document.getElementById("spin").style.display = "none";
@@ -60,7 +52,7 @@
 
   liff.init({ liffId: LIFF_ID })
     .then(() => {
-      if (!liff.isLoggedIn()) {           // 用外部瀏覽器開啟時才會走到這裡
+      if (!liff.isLoggedIn()) {           
         liff.login({ redirectUri: location.href });
         return;
       }
